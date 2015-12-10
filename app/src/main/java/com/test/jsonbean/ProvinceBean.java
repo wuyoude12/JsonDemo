@@ -1,16 +1,16 @@
-package com.test.jsondemo;
+package com.test.jsonbean;
 
 import java.util.List;
 
 /**
  * Created by wuyoude on 2015/12/9.
  */
-public class ProvinceID {
+public class ProvinceBean {
 
 
     private int Code;
     private String Msg;
-    private ProvinceID.Data Data;
+    private ProvinceBean.Data Data;
 
     public int getCode() {
         return Code;
@@ -28,23 +28,23 @@ public class ProvinceID {
         this.Msg = Msg;
     }
 
-    public ProvinceID.Data getData() {
+    public ProvinceBean.Data getData() {
         return Data;
     }
 
-    public void setData(ProvinceID.Data Data) {
+    public void setData(ProvinceBean.Data Data) {
         this.Data = Data;
     }
 
     public class Data {
 
-        private List<ProvinceID.Data.Province> Province;
+        private List<ProvinceBean.Data.Province> Province;
 
-        public  List<ProvinceID.Data.Province> getProvince() {
+        public  List<ProvinceBean.Data.Province> getProvince() {
             return Province;
         }
 
-        public void setProvince(List<ProvinceID.Data.Province> Province) {
+        public void setProvince(List<ProvinceBean.Data.Province> Province) {
             this.Province = Province;
         }
 

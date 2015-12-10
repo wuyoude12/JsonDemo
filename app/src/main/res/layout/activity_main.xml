@@ -21,10 +21,24 @@
         android:layout_height="wrap_content"
         />
 
-    <Spinner
-        android:id="@+id/spin_province"
+
+    <LinearLayout
+        android:id="@+id/l_lay1"
         android:layout_below="@id/tv_show1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></Spinner>
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/spin_province"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Spinner
+            android:id="@+id/spin_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tv_show;
     private TextView tv_show1;
     private Spinner spin_province;
+    private Spinner spin_city;
 
     String jsonId;
     String jsonName;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         tv_show = (TextView) findViewById(R.id.tv_show);
         tv_show1 = (TextView) findViewById(R.id.tv_show1);
         spin_province = (Spinner) findViewById(R.id.spin_province);
+        spin_city = (Spinner)findViewById(R.id.spin_city);
 
         new Thread(new Runnable() {
             @Override
@@ -108,7 +110,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (msg.what == 3) {
 
-                    tv_show1.setText(msg.obj.toString());
+//                    tv_show1.setText(msg.obj.toString());
+
+                    ArrayAdapter<Object> cityAdapter = new ArrayAdapter<Object>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, list1);
+                    spin_city.setAdapter(cityAdapter);
                 }
 
             }
@@ -124,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                Toast.makeText(MainActivity.this, "" + list.get(position) + map.get(list.get(position)) + "被选中了", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "" + list.get(position) + map.get(list.get(position)) + "被选中了", Toast.LENGTH_SHORT).show();
                 url = "http://p.apix.cn/apixlife/pay/utility/query_city?provid=" + map.get(list.get(position));
 
 
@@ -158,9 +163,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).start();
 
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
 
+        spin_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(isFirst){
+                    isFirst = false;
+                    return;
+                }
+
+                Toast.makeText(MainActivity.this, "" + list1.get(position) + map1.get(list1.get(position)) + "被选中了", Toast.LENGTH_SHORT).show();
 
             }
 

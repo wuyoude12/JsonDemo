@@ -1,5 +1,6 @@
 package com.test.jsondemo;
 
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -45,8 +46,13 @@ public class MainActivity extends AppCompatActivity {
     String getResponse;
     String url;
 
-    public boolean isFirst = true;
+    SharedPreferences share = getSharedPreferences("APIX",MODE_PRIVATE);
+    SharedPreferences.Editor editor;
+
+    //    public boolean isFirst = true;
     Gson gson = new Gson();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                 message.obj = list;
                 handler.sendMessage(message);
 
-
             }
         }).start();
 
@@ -98,20 +103,13 @@ public class MainActivity extends AppCompatActivity {
                     tv_show.setText(msg.obj.toString());
                     tv_show.append("\n");
                 }
-                if (msg.what == 2) {
-//                    tv_show1.append(list.toString());
-//                    tv_show1.append(list.toString());
 
+                if (msg.what == 2) {
                     ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, list);
                     spin_province.setAdapter(adapter);
-
-
                 }
 
                 if (msg.what == 3) {
-
-//                    tv_show1.setText(msg.obj.toString());
-
                     ArrayAdapter<Object> cityAdapter = new ArrayAdapter<Object>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, list1);
                     spin_city.setAdapter(cityAdapter);
                 }
@@ -124,14 +122,15 @@ public class MainActivity extends AppCompatActivity {
         spin_province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(isFirst){
-                    isFirst = false;
-                    return;
-                }
+//                if(isFirst){
+//                    isFirst = false;
+//                    return;
+//                }
 
 //                Toast.makeText(MainActivity.this, "" + list.get(position) + map.get(list.get(position)) + "被选中了", Toast.LENGTH_SHORT).show();
                 url = "http://p.apix.cn/apixlife/pay/utility/query_city?provid=" + map.get(list.get(position));
-
+                editor.putString("Province",map.get(list.get(position)));
+                editor.commit();
 
                 new Thread(new Runnable() {
                     @Override
@@ -174,12 +173,14 @@ public class MainActivity extends AppCompatActivity {
         spin_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(isFirst){
-                    isFirst = false;
-                    return;
-                }
+//                if(isFirst){
+//                    isFirst = false;
+//                    return;
+//                }
 
                 Toast.makeText(MainActivity.this, "" + list1.get(position) + map1.get(list1.get(position)) + "被选中了", Toast.LENGTH_SHORT).show();
+                editor.putString("City", map1.get(list1.get(position)));
+                editor.commit();
 
             }
 
@@ -188,39 +189,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                setRequest(url);
-//                Log.i("URL", "run: "+url);
-//                CityBean city = gson.fromJson(getResponse, CityBean.class);
-//
-//                CityBean.Data myCityData = city.getData();
-//
-////                                    List<CityBean.Data.City> myCityList = myCityData.getCity();
-//                List<CityBean.Data.City> myCityList = myCityData.getCity();
-//                Log.i("cityData", "run: "+myCityList.size());
-//                map1.clear();
-//                for (int i = 0; i < myCityList.size(); i++) {
-//
-//                    jsonId = myCityList.get(i).getCityId().toString();
-//                    jsonName = myCityList.get(i).getCityName().toString();
-//                    map1.put(jsonName,jsonId);
-//                    list1.add(myCityList.get(i).getCityName().toString());
-//                }
-//                Log.i("City", "run: "+map1.toString());
-//            }
-//        }).start();
-
 
     }
 
@@ -247,5 +215,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void onDestory(){
+        editor.clear();
+        super.onDestroy();
     }
 }
